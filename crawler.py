@@ -12,7 +12,7 @@ inputbook = openpyxl.load_workbook(inputpath)
 inputsheet = inputbook.active
 input_max_row = inputsheet.max_row
 max_depth = 1
-# input_max_row = 15
+# input_max_row = 11
 
 starting_urls = []
 
@@ -228,14 +228,13 @@ for starting_url in starting_urls:
     info = crawl(starting_url, max_depth)
 
     if info:
-        if (info['lk_counter'] >= 1) or (info['sk_counter'] >= 1 and info['spt_counter'] >= 1) or ((info['sk_counter'] + info['spt_counter']) >= 2):
-        # if (info['lk_counter'] >= 1) or (info['sk_counter'] >= 1 and info['spt_counter'] >= 1):
-
+        # if (info['lk_counter'] >= 1) or (info['sk_counter'] >= 1 and info['spt_counter'] >= 1) or ((info['sk_counter'] + info['spt_counter']) >= 2):
+        if (info['lk_counter'] >= 1) or (info['sk_counter'] >= 1 and info['spt_counter'] >= 1):
             status = 'Hot'
         elif (info['sk_counter'] >= 1):
             status = 'Medium'
-        elif (info['mk_counter'] >= 2 and info['pt_counter'] >= 1) or ((info['mk_counter'] + info['pt_counter']) >= 3):
-        # elif (info['mk_counter'] >= 2 and info['pt_counter'] >= 1):
+        # elif (info['mk_counter'] >= 2 and info['pt_counter'] >= 1) or ((info['mk_counter'] + info['pt_counter']) >= 3):
+        elif (info['mk_counter'] >= 2 and info['pt_counter'] >= 1):
 
             status = "Potential"
         Triggered_page = ', '.join(str(element) for element in info['url'])
