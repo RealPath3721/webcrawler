@@ -112,7 +112,7 @@ def is_positive(txt, a_links, iframe_links, url, obj):
 
     temp_info['url'].add(url)
 
-    print('tmp_info', temp_info)
+    # print('tmp_info', temp_info)
 
     return temp_info
 
@@ -125,7 +125,7 @@ def is_negative(txt, url):
     # 'Training', 'Consultation'
     for item in negative_texts:
         if item.upper() in txt.upper():
-            print(f"Found '{item}' at URL: {url}")
+            # print(f"Found '{item}' at URL: {url}")
             negative = False
             break
     return negative
@@ -152,7 +152,7 @@ def crawl(starting_url, max_depth):
 
     while queue:
         url, depth = queue.popleft()
-        print(url, depth)
+        # print(url, depth)
         if url not in visited and depth <= max_depth:
             try:
                 headers = {
@@ -178,7 +178,7 @@ def crawl(starting_url, max_depth):
 
 
                 if is_negative(text, url):
-                    print('here1')
+                    # print('here1')
                     info = is_positive(text, a_links, iframe_links, url, obj)
                     obj = info
 
@@ -202,11 +202,12 @@ def crawl(starting_url, max_depth):
                 else:
                     a = 1
                     # queue = False
-                    print('It is negative.')
+                    # print('It is negative.')
 
             except Exception as e:
+                err = f"Error crawling {url}: {str(e)}"
                 # Handle any exceptions or errors encountered during crawling
-                print(f"Error crawling {url}: {str(e)}")
+                # print(f"Error crawling {url}: {str(e)}")
 
     return info
 
@@ -242,7 +243,7 @@ for starting_url in starting_urls:
         Keywords = ', '.join(str(element) for element in info['sk']) + ',' + ', '.join(str(element) for element in info['mk'])
         Strong_positive = ', '.join(str(element) for element in info['spt'])
         Positive = ', '.join(str(element) for element in info['pt'])
-    print(starting_url, status)
+    # print(starting_url, status)
     outsheet.cell(row = tmp + 1, column = 2).value = status
     outsheet.cell(row = tmp + 1, column = 4).value = Triggered_page
     outsheet.cell(row = tmp + 1, column = 5).value = Links
