@@ -48,7 +48,6 @@ outsheet.cell(row=1, column=7).value = "Strong Positive"
 outsheet.cell(row=1, column=8).value = "Positive"
 
 
-
 for i in range(2, input_max_row + 1):
     outsheet.cell(row = i, column = 1).value = inputsheet.cell(row = i, column = 1).value
     outsheet.cell(row = i, column = 3).value = inputsheet.cell(row = i, column = 2).value
@@ -160,18 +159,19 @@ def crawl(starting_url, max_depth):
                     'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36 QIHU 360SE'
                 }
                 # Send a GET request to the webpage
-                response = requests.get(url, headers = headers)
+                timeout = 5
+                response = requests.get(url, headers = headers, timeout=timeout)
                 
                 # Parse the HTML content
                 soup = BeautifulSoup(response.content, 'html.parser')
                 text = soup.get_text()
-                print(text)
+                # print(text)
 
-                print(soup.find_all('a'))
+                # print(soup.find_all('a'))
 
                 # Find all <a> tags and extract their href attributes
                 a_links = [link.get('href') for link in soup.find_all('a')]
-                print(a_links)
+                # print(a_links)
 
                 # Find all <iframe> tags and extract their src attributes
                 iframe_links = [link.get('src') for link in soup.find_all('iframe')]
@@ -228,14 +228,14 @@ for starting_url in starting_urls:
     info = crawl(starting_url, max_depth)
 
     if info:
-        # if (info['lk_counter'] >= 1) or (info['sk_counter'] >= 1 and info['spt_counter'] >= 1) or ((info['sk_counter'] + info['spt_counter']) >= 2):
-        if (info['lk_counter'] >= 1) or (info['sk_counter'] >= 1 and info['spt_counter'] >= 1):
+        if (info['lk_counter'] >= 1) or (info['sk_counter'] >= 1 and info['spt_counter'] >= 1) or ((info['sk_counter'] + info['spt_counter']) >= 2):
+        # if (info['lk_counter'] >= 1) or (info['sk_counter'] >= 1 and info['spt_counter'] >= 1):
 
             status = 'Hot'
         elif (info['sk_counter'] >= 1):
             status = 'Medium'
-        # elif (info['mk_counter'] >= 2 and info['pt_counter'] >= 1) or ((info['mk_counter'] + info['pt_counter']) >= 3):
-        elif (info['mk_counter'] >= 2 and info['pt_counter'] >= 1):
+        elif (info['mk_counter'] >= 2 and info['pt_counter'] >= 1) or ((info['mk_counter'] + info['pt_counter']) >= 3):
+        # elif (info['mk_counter'] >= 2 and info['pt_counter'] >= 1):
 
             status = "Potential"
         Triggered_page = ', '.join(str(element) for element in info['url'])
