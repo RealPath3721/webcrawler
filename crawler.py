@@ -4,6 +4,8 @@ from collections import deque
 import re
 
 import openpyxl
+from openpyxl import Workbook
+
 from datetime import datetime
 from tkinter.filedialog import askopenfilename
 
@@ -15,6 +17,16 @@ max_depth = 1
 # input_max_row = 11
 
 starting_urls = []
+
+def remove_illegal_characters(text):
+    # Define a regular expression pattern to match illegal characters
+    illegal_pattern = re.compile(r"[^\x09\x0a\x0d\x20-\x7e]")
+
+    # Remove or replace illegal characters
+    cleaned_text = illegal_pattern.sub('', text)
+    return cleaned_text
+
+
 
 def generate_output_path(inputpath):
     path_array = inputpath.split('/')
@@ -245,7 +257,8 @@ for starting_url in starting_urls:
         Positive = ', '.join(str(element) for element in info['pt'])
     # print(starting_url, status)
     outsheet.cell(row = tmp + 1, column = 2).value = status
-    outsheet.cell(row = tmp + 1, column = 4).value = Triggered_page
+    outsheet.cell(row = tmp + 1, column = 4).value = remove_illegal_characters(Triggered_page)
+    # outsheet.cell(row = tmp + 1, column = 4).value = Triggered_page
     outsheet.cell(row = tmp + 1, column = 5).value = Links
     outsheet.cell(row = tmp + 1, column = 6).value = Keywords
     outsheet.cell(row = tmp + 1, column = 7).value = Strong_positive
