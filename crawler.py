@@ -89,21 +89,29 @@ def is_positive(txt, a_links, iframe_links, url, obj):
                       'Analytics', 'Product', 'Products', 'Get']
     for item in strong_positive_texts:
         if item.upper() in txt.upper():
+            print(f"Found '{item}' at URL: {url}")
+            
             temp_info['spt'].add(item)
             temp_info['spt_counter'] += 1
 
     for item in positive_texts:
         if item.upper() in txt.upper():
+            print(f"Found '{item}' at URL: {url}")
+
             temp_info['pt'].add(item)
             temp_info['pt_counter'] += 1
     
     for item in strong_key:
         if item.upper() in txt.upper():
+            print(f"Found '{item}' at URL: {url}")
+
             temp_info['sk'].add(item)
             temp_info['sk_counter'] += 1
 
     for item in medium_key:
         if item.upper() in txt.upper():
+            print(f"Found '{item}' at URL: {url}")
+
             temp_info['mk'].add(item)
             temp_info['mk_counter'] += 1
     
@@ -112,6 +120,8 @@ def is_positive(txt, a_links, iframe_links, url, obj):
         for item in link_key:
             if link != None:
                 if item in link:
+                    print(f"Found '{item}' at URL: {url}")
+
                     temp_info['lk'].add(item)
                     temp_info['lk_counter'] += 1
     
@@ -119,6 +129,7 @@ def is_positive(txt, a_links, iframe_links, url, obj):
         for item in link_key:
             if link != None:
                 if item in link:
+                    print(f"Found '{item}' at URL: {url}")
                     temp_info['lk'].add(item)
                     temp_info['lk_counter'] += 1
 
