@@ -71,7 +71,13 @@ def is_valid_url(url, pattern):
 
 def is_word_alone(word, txt):
   # Check if the word is alone in the text
-  return f" {word} " in f" {txt} "
+  return f" {word} " in f" {txt} " or \
+        f" {word}." in f" {txt}." or \
+        f" {word}!" in f" {txt}!" or \
+        f" {word}," in f" {txt}," or \
+        f" {word}-" in f" {txt}-" or \
+        f" {word};" in f" {txt};" or \
+        f" {word}?" in f" {txt}?"
 
 def is_positive(txt, a_links, iframe_links, url, obj):
 
