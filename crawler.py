@@ -69,10 +69,16 @@ for i in range(2, input_max_row + 1):
 def is_valid_url(url, pattern):
     return re.match(pattern, url)
 
+def is_word_alone(word, txt):
+  # Check if the word is alone in the text
+  return f" {word} " in f" {txt} "
 
 def is_positive(txt, a_links, iframe_links, url, obj):
 
     temp_info = obj
+
+    # strong_key = ['Microsoft PowerBI', 'Microsoft Power BI', 
+    #               'PowerBI', 'Power BI']
     
     strong_key = ['Microsoft PowerBI', 'Microsoft Power BI', 
                   'PowerBI', 'Power BI', 'Microsoft Power Platform', 
@@ -88,29 +94,31 @@ def is_positive(txt, a_links, iframe_links, url, obj):
     positive_texts = ['Schedule Demo', 'Reporting & Analytics', 
                       'Analytics', 'Product', 'Products', 'Get']
     for item in strong_positive_texts:
-        if item.upper() in txt.upper():
-            print(f"Found '{item}' at URL: {url}")
+        if is_word_alone(item.upper(), txt.upper()):
+            # print(f"Found '{item}' at URL: {url}")
             
             temp_info['spt'].add(item)
             temp_info['spt_counter'] += 1
 
     for item in positive_texts:
-        if item.upper() in txt.upper():
-            print(f"Found '{item}' at URL: {url}")
+        if is_word_alone(item.upper(), txt.upper()):
+            # print(f"Found '{item}' at URL: {url}")
 
             temp_info['pt'].add(item)
             temp_info['pt_counter'] += 1
     
     for item in strong_key:
-        if item.upper() in txt.upper():
+        if is_word_alone(item.upper(), txt.upper()):
+
             print(f"Found '{item}' at URL: {url}")
 
             temp_info['sk'].add(item)
             temp_info['sk_counter'] += 1
 
     for item in medium_key:
-        if item.upper() in txt.upper():
-            print(f"Found '{item}' at URL: {url}")
+        if is_word_alone(item.upper(), txt.upper()):
+
+            # print(f"Found '{item}' at URL: {url}")
 
             temp_info['mk'].add(item)
             temp_info['mk_counter'] += 1
@@ -120,7 +128,7 @@ def is_positive(txt, a_links, iframe_links, url, obj):
         for item in link_key:
             if link != None:
                 if item in link:
-                    print(f"Found '{item}' at URL: {url}")
+                    # print(f"Found '{item}' at URL: {url}")
 
                     temp_info['lk'].add(item)
                     temp_info['lk_counter'] += 1
@@ -129,7 +137,7 @@ def is_positive(txt, a_links, iframe_links, url, obj):
         for item in link_key:
             if link != None:
                 if item in link:
-                    print(f"Found '{item}' at URL: {url}")
+                    # print(f"Found '{item}' at URL: {url}")
                     temp_info['lk'].add(item)
                     temp_info['lk_counter'] += 1
 
@@ -147,7 +155,7 @@ def is_negative(txt, url):
                       'Expertise BI']
     # 'Training', 'Consultation'
     for item in negative_texts:
-        if item.upper() in txt.upper():
+        if is_word_alone(item.upper(), txt.upper()):
             # print(f"Found '{item}' at URL: {url}")
             negative = False
             break
