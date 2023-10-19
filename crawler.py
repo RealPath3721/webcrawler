@@ -263,6 +263,8 @@ for starting_url in starting_urls:
     spt_total = 0
     mk_total = 0
     pt_total = 0
+    Triggered_page_powerbi = ""
+    Triggered_page_link = ""
     Triggered_page = ""
     Links = ""
     Keywords = ""
