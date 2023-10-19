@@ -53,11 +53,11 @@ outsheet = outbook.active
 outsheet.cell(row=1, column=1).value = "Company"
 outsheet.cell(row=1, column=2).value = "Strength"
 outsheet.cell(row=1, column=3).value = "Website"
-outsheet.cell(row=1, column=4).value = "Triggered Page"
-outsheet.cell(row=1, column=5).value = "Links"
-outsheet.cell(row=1, column=6).value = "Keyword"
-outsheet.cell(row=1, column=7).value = "Strong Positive"
-outsheet.cell(row=1, column=8).value = "Positive"
+outsheet.cell(row=1, column=4).value = "Triggered Page for Power BI"
+outsheet.cell(row=1, column=5).value = "Triggered Page for embedded link"
+# outsheet.cell(row=1, column=6).value = "Keyword"
+# outsheet.cell(row=1, column=7).value = "Strong Positive"
+# outsheet.cell(row=1, column=8).value = "Positive"
 
 
 for i in range(2, input_max_row + 1):
@@ -116,7 +116,9 @@ def is_positive(txt, a_links, iframe_links, url, obj):
     for item in strong_key:
         if is_word_alone(item.upper(), txt.upper()):
 
-            print(f"Found '{item}' at URL: {url}")
+            if(item == "PowerBI" or item == "Power BI"):
+                temp_info['powerbi'].add(f"Found '{item}' at URL: {url}")
+                print(f"Found '{item}' at URL: {url}")
 
             temp_info['sk'].add(item)
             temp_info['sk_counter'] += 1
@@ -134,7 +136,8 @@ def is_positive(txt, a_links, iframe_links, url, obj):
         for item in link_key:
             if link != None:
                 if item in link:
-                    # print(f"Found '{item}' at URL: {url}")
+                    print(f"Found '{item}' at URL: {url}")
+                    temp_info['link'].add(f"Found '{item}' at URL: {url}")
 
                     temp_info['lk'].add(item)
                     temp_info['lk_counter'] += 1
@@ -143,7 +146,8 @@ def is_positive(txt, a_links, iframe_links, url, obj):
         for item in link_key:
             if link != None:
                 if item in link:
-                    # print(f"Found '{item}' at URL: {url}")
+                    print(f"Found '{item}' at URL: {url}")
+                    temp_info['link'].add(f"Found '{item}' at URL: {url}")
                     temp_info['lk'].add(item)
                     temp_info['lk_counter'] += 1
 
@@ -180,7 +184,9 @@ def crawl(starting_url, max_depth):
         'mk_counter' : 0,
         'lk' : set(),
         'lk_counter' : 0,
-        'url' : set()
+        'url' : set(),
+        'powerbi' : set(),
+        'link' : set()
     }
     
     queue = deque([(starting_url, 0)])
@@ -275,6 +281,9 @@ for starting_url in starting_urls:
         elif (info['mk_counter'] >= 2 and info['pt_counter'] >= 1):
 
             status = "Potential"
+
+        Triggered_page_powerbi = ', '.join(str(element) for element in info['powerbi'])
+        Triggered_page_link = ', '.join(str(element) for element in info['link'])
         Triggered_page = ', '.join(str(element) for element in info['url'])
         Links = ', '.join(str(element) for element in info['lk'])
         Keywords = ', '.join(str(element) for element in info['sk']) + ',' + ', '.join(str(element) for element in info['mk'])
@@ -282,12 +291,13 @@ for starting_url in starting_urls:
         Positive = ', '.join(str(element) for element in info['pt'])
     # print(starting_url, status)
     outsheet.cell(row = tmp + 1, column = 2).value = status
-    outsheet.cell(row = tmp + 1, column = 4).value = remove_illegal_characters(Triggered_page)
+    outsheet.cell(row = tmp + 1, column = 4).value = remove_illegal_characters(Triggered_page_powerbi)
+    outsheet.cell(row = tmp + 1, column = 5).value = remove_illegal_characters(Triggered_page_link)
     # outsheet.cell(row = tmp + 1, column = 4).value = Triggered_page
-    outsheet.cell(row = tmp + 1, column = 5).value = Links
-    outsheet.cell(row = tmp + 1, column = 6).value = Keywords
-    outsheet.cell(row = tmp + 1, column = 7).value = Strong_positive
-    outsheet.cell(row = tmp + 1, column = 8).value = Positive
+    # outsheet.cell(row = tmp + 1, column = 5).value = Links
+    # outsheet.cell(row = tmp + 1, column = 6).value = Keywords
+    # outsheet.cell(row = tmp + 1, column = 7).value = Strong_positive
+    # outsheet.cell(row = tmp + 1, column = 8).value = Positive
     
     tmp += 1
 
