@@ -85,6 +85,8 @@ def is_positive(txt, a_links, iframe_links, url, obj):
 
     # strong_key = ['Microsoft PowerBI', 'Microsoft Power BI', 
     #               'PowerBI', 'Power BI']
+
+    exclude_words = ['Jobs', 'Careers', 'Services', 'Blog', 'Insights', 'Partners', 'karriere']
     
     strong_key = ['Microsoft PowerBI', 'Microsoft Power BI', 
                   'PowerBI', 'Power BI', 'Microsoft Power Platform', 
@@ -117,8 +119,10 @@ def is_positive(txt, a_links, iframe_links, url, obj):
         if is_word_alone(item.upper(), txt.upper()):
 
             if(item == "PowerBI" or item == "Power BI"):
-                temp_info['powerbi'].add(f"Found '{item}' at URL: {url}")
-                print(f"Found '{item}' at URL: {url}")
+                if not any(word in url for word in exclude_words):
+                    # temp_info['powerbi'] = url
+                    temp_info['powerbi'].add(f"Found '{item}' at URL: {url}")
+                    print(f"Found '{item}' at URL: {url}")
 
             temp_info['sk'].add(item)
             temp_info['sk_counter'] += 1
@@ -136,8 +140,9 @@ def is_positive(txt, a_links, iframe_links, url, obj):
         for item in link_key:
             if link != None:
                 if item in link:
-                    print(f"Found '{item}' at URL: {url}")
-                    temp_info['link'].add(f"Found '{item}' at URL: {url}")
+                    if not any(word in url for word in exclude_words):
+                        print(f"Found '{item}' at URL: {url}")
+                        temp_info['link'].add(f"Found '{item}' at URL: {url}")
 
                     temp_info['lk'].add(item)
                     temp_info['lk_counter'] += 1
@@ -146,8 +151,9 @@ def is_positive(txt, a_links, iframe_links, url, obj):
         for item in link_key:
             if link != None:
                 if item in link:
-                    print(f"Found '{item}' at URL: {url}")
-                    temp_info['link'].add(f"Found '{item}' at URL: {url}")
+                    if not any(word in url for word in exclude_words):
+                        print(f"Found '{item}' at URL: {url}")
+                        temp_info['link'].add(f"Found '{item}' at URL: {url}")
                     temp_info['lk'].add(item)
                     temp_info['lk_counter'] += 1
 
